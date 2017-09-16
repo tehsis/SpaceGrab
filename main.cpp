@@ -1,13 +1,24 @@
 #include <SDL2/SDL.h>
+#include <string>
 
 int main() {
     SDL_Window *w;
-    w = SDL_CreateWindow("SDL Test", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_OPENGL);
+    SDL_Surface *ws, *s;
 
-    SDL_Delay(3000);
+    SDL_Init(SDL_INIT_VIDEO);
 
-    SDL_DestroyWindow(w);
+    w = SDL_CreateWindow("TEST", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
 
+    ws = SDL_GetWindowSurface(w);
+
+    
+    SDL_FillRect(ws, NULL, SDL_MapRGB(ws->format, 0xFF, 0xFF,0xFF));
+
+    SDL_UpdateWindowSurface(w);
+
+    SDL_Delay(2000);
+
+    SDL_DestroyWindow( w ) ;
     SDL_Quit();
 
     return 0;
