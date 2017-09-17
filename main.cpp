@@ -18,7 +18,16 @@ int main() {
 
     SDL_UpdateWindowSurface(w);
 
-    SDL_Delay(2000);
+    bool quit = false;
+    SDL_Event event;
+    while (!quit) {
+       while(SDL_PollEvent(&event)) {
+           if (event.type == SDL_QUIT) {
+               quit = true;
+           }
+       }
+    }
+
 
     SDL_DestroyWindow( w ) ;
     SDL_Quit();
