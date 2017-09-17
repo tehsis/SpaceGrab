@@ -4,7 +4,7 @@ CXX ?= g++
 SRC_DIRS ?= ./
 BUILD_DIR ?= ./build
 
-SDLFLAGS := $(shell sdl2-config --cflags --libs)
+SDLFLAGS := $(shell sdl2-config --cflags --libs) -lSDL2_Image -w
 
 MKDIR_P ?= mkdir -p
 
