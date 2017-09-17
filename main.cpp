@@ -25,10 +25,6 @@ int main(int argc, char *argv[]) {
     background = IMG_Load("assets/background.png");
     ship = IMG_Load("assets/ship.png");
 
-    SDL_FillRect(ws, NULL, SDL_MapRGB(ws->format, 0xFF,0xFF,0xFF));
-    SDL_BlitSurface(background, NULL, ws, NULL);
-    SDL_BlitSurface(ship, NULL, ws, shipRect);
-    SDL_UpdateWindowSurface(w);
 
     bool quit = false;
     SDL_Event event;
@@ -37,7 +33,28 @@ int main(int argc, char *argv[]) {
            if (event.type == SDL_QUIT) {
                quit = true;
            }
+
+           if (event.type == SDL_KEYDOWN) {
+            switch (event.key.keysym.sym) {
+              case SDLK_DOWN:
+                shipRect->y += shipVel;
+                break;
+              case SDLK_UP:
+                shipRect->y -= shipVel;
+                break;
+              case SDLK_RIGHT:
+                shipRect->x += shipVel;
+                break;
+              case SDLK_LEFT:
+                shipRect->x -= shipVel;
+                break;
+            }
+           }
        }
+      SDL_FillRect(ws, NULL, SDL_MapRGB(ws->format, 0xFF,0xFF,0xFF));
+      SDL_BlitSurface(background, NULL, ws, NULL);
+      SDL_BlitSurface(ship, NULL, ws, shipRect);
+      SDL_UpdateWindowSurface(w);
     }
 
     SDL_DestroyWindow( w ) ;
