@@ -3,7 +3,7 @@
 
 int main() {
     SDL_Window *w;
-    SDL_Surface *ws, *s;
+    SDL_Surface *ws, *img;
 
     SDL_Init(SDL_INIT_VIDEO);
 
@@ -11,8 +11,10 @@ int main() {
 
     ws = SDL_GetWindowSurface(w);
 
-    
-    SDL_FillRect(ws, NULL, SDL_MapRGB(ws->format, 0xFF, 0xFF,0xFF));
+    img = SDL_LoadBMP("assets/background.bmp");
+
+    SDL_BlitSurface(img, NULL, ws, NULL);
+
 
     SDL_UpdateWindowSurface(w);
 
