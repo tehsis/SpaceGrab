@@ -4,7 +4,7 @@
 
 int main(int argc, char *argv[]) {
     SDL_Window *w;
-    SDL_Surface *ws, *background, *ship;
+    SDL_Surface *background, *ship;
 
     SDL_Rect* shipRect = new SDL_Rect;
 
@@ -19,12 +19,16 @@ int main(int argc, char *argv[]) {
     IMG_Init(IMG_INIT_PNG);
 
     w = SDL_CreateWindow("TEST", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 640, 480, SDL_WINDOW_SHOWN);
-
-    ws = SDL_GetWindowSurface(w);
+    SDL_Renderer* r = SDL_CreateRenderer(w, -1, SDL_RENDERER_ACCELERATED);
 
     background = IMG_Load("assets/background.png");
     ship = IMG_Load("assets/ship.png");
 
+    SDL_Texture* shipTex = SDL_CreateTextureFromSurface(r,ship);
+    SDL_Texture* backTex = SDL_CreateTextureFromSurface(r, background);
+
+    SDL_FreeSurface(background);
+    SDL_FreeSurface(ship);
 
     bool quit = false;
     SDL_Event event;
@@ -51,12 +55,18 @@ int main(int argc, char *argv[]) {
             }
            }
        }
-      SDL_FillRect(ws, NULL, SDL_MapRGB(ws->format, 0xFF,0xFF,0xFF));
-      SDL_BlitSurface(background, NULL, ws, NULL);
-      SDL_BlitSurface(ship, NULL, ws, shipRect);
-      SDL_UpdateWindowSurface(w);
+
+       SDL_RenderClear(r);
+
+       SDL_RenderCopy(r, backTex, NULL, NULL); 
+       SDL_RenderCopy(r, shipTex, NULL, shipRect); 
+
+       SDL_RenderPresent(r);
     }
 
+    SDL_DestroyTexture(backTex);
+    SDL_DestroyTexture(shipTex);
+    SDL_DestroyRenderer(r);
     SDL_DestroyWindow( w ) ;
     SDL_Quit();
 
