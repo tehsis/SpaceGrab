@@ -2,9 +2,17 @@
 #define _SHIP_H
 
 #include "../lib/Entity.h"
+#include "../lib/Drawer.h"
 
 class Ship: public Tehsis::Entity {
+    private:
+        Tehsis::Rectangle shipRect;
+        int velocity = 10;
+
     public:
-        void onUpdate();
+        Ship();
+        void onStart() override;
+        void onEvent(SDL_Event*) override;
+        void onUpdate() override;
 };
 #endif

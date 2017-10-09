@@ -1,11 +1,7 @@
 #include "Runtime.h"
 
-#include <iostream>
-using namespace std;
-
 Runtime::Runtime() { }
 Runtime::~Runtime() {
-    quit = false;
 }
 
 void Runtime::Start() {
@@ -14,52 +10,47 @@ void Runtime::Start() {
 
 void Runtime::loop() {
     onStart();
-    SDL_Event *Event;
-    onLoop();        
-    
+    bool quit = false;
+    SDL_Event Event;
     while(!quit) {
-        onLoop();
-        while(SDL_PollEvent(Event)) {
-            if (SDL_QUIT == Event->type) {
-                quit = false;
+        while(SDL_PollEvent(&Event)) {
+            if (SDL_QUIT == Event.type) {
+                quit = true;
             }
 
-            handleEvents(Event);
+            handleEvents(&Event);
         }
+
+        onLoop();
     }
 
     onExit();
 }
 
 void Runtime::onLoop() {
-    cout << "onLoop" << endl;
-    for(std::vector<Tehsis::Entity>::iterator eit = entities.begin(); eit != entities.end(); ++eit) {        
-        eit->onUpdate();
-    }
-    cout << "onLoop end" << endl;
+    std::for_each(entities.begin(), entities.end(), [] (Tehsis::Entity* e) {
+      e->onUpdate();  
+    });
 }
 
 void Runtime::handleEvents(SDL_Event* event) {
-    for(std::vector<Tehsis::Entity>::iterator eit = entities.begin(); eit != entities.end(); ++eit) {
-        eit->onEvent(event);
-    }
+    std::for_each(entities.begin(), entities.end(), [&] (Tehsis::Entity* e) {
+        e->onEvent(event);  
+    });
 }
 
 void Runtime::onStart() {
-    cout << "On start";
-    for(std::vector<Tehsis::Entity>::iterator eit = entities.begin(); eit != entities.end(); ++eit) {
-        eit->onStart();
-    }
-    cout << "On start end";
-    
+    std::for_each(entities.begin(), entities.end(), [] (Tehsis::Entity* e) {
+        e->onStart();  
+    });
 }
 
 void Runtime::onExit() {
-    for(std::vector<Tehsis::Entity>::iterator eit = entities.begin(); eit != entities.end(); ++eit) {
-        eit->onExit();
-    }
+    std::for_each(entities.begin(), entities.end(), [] (Tehsis::Entity* e) {
+        e->onExit();  
+    });
 }
 
-void Runtime::AddEntity(const Tehsis::Entity &e) {
+void Runtime::AddEntity(Tehsis::Entity *e) {
     entities.push_back(e);
 }

@@ -16,16 +16,34 @@ Drawer::~Drawer() {
     SDL_Quit();
 }
 
+Texture* Drawer::Image(std::string path) {
+    SDL_Surface* imgSurface = IMG_Load(path.c_str());
+
+    SDL_Texture* imgTexture = SDL_CreateTextureFromSurface(renderer, imgSurface);
+
+    SDL_FreeSurface(imgSurface);
+    
+    return imgTexture;
+}
+
+void Drawer::DrawImage(Texture* texture, const Rectangle* src, const Rectangle* dst) {
+    DrawImage(texture, src, dst, 0, NULL);
+}
+
+void Drawer::DrawImage(Texture* texture, const Rectangle* src, const Rectangle* dst, const double angle, const Point *center) {
+    SDL_RenderCopyEx(renderer, texture, src, dst, angle, center, SDL_FLIP_NONE);
+}
+
 void Drawer::clearScreen() {
     SDL_RenderClear(renderer);
 }
 
-void Drawer::update() {
+void Drawer::updateScreen() {
     SDL_RenderPresent(renderer);
 }
 
 Drawer* SDrawer::Drawer() {
-    return Init(DEFAULT_SCREEN_NAME, DEFAULT_SCREEN_WIDTH, DEFAULT_SCREEN_HEIGHT);
+    return Init(Tehsis::DEFAULT_SCREEN_NAME, Tehsis::DEFAULT_SCREEN_WIDTH, Tehsis::DEFAULT_SCREEN_HEIGHT);
 }
 
 Drawer* SDrawer::Init(std::string title, uint width, uint height) {

@@ -1,10 +1,11 @@
 TARGET_EXEC ?= game
-CXX ?= g++
+CXX ?= clang++ 
 
 SRC_DIRS ?= "./"
 BUILD_DIR ?= ./build
 
-SDLFLAGS := $(shell sdl2-config --cflags --libs) -lSDL2_Image -w
+SDLFLAGS := $(shell sdl2-config --cflags --libs) -lSDL2_Image -w -Wc++17
+CPPFLAGS := --std=c++14
 
 MKDIR_P ?= mkdir -p
 

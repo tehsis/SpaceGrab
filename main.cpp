@@ -1,18 +1,19 @@
-#include "lib/Runtime.h"
+#include "lib/GameRuntime.h"
 
 #include "entities/Ship.h"
+#include "entities/Background.h"
 
 #include <iostream>
 using namespace std;
 
 int main() {
-    Runtime r;
+    GameRuntime r;
 
     Ship s;
+    Background b;
 
-    cout << "adding" << endl;
-
-    r.AddEntity(s);
+    r.AddEntity(&b);
+    r.AddEntity(&s);
 
     r.Start();
     return 0;

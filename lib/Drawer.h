@@ -1,17 +1,19 @@
+#ifndef _Drawer_H_
+#define _Drawer_H_
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include <string>
 
-#ifndef _Drawer_H_
-#define _Drawer_H_
-
-#define SDL_Texture Texture
-
 namespace Tehsis {
 
-const char DEFAULT_SCREEN_NAME[] = "Drawer";
+const char DEFAULT_SCREEN_NAME[] = "Game";
 const uint DEFAULT_SCREEN_WIDTH = 640;
 const uint DEFAULT_SCREEN_HEIGHT = 480;
+
+using Texture = SDL_Texture;
+using Rectangle = SDL_Rect;
+using Point = SDL_Point;
 
 class Drawer {
     private:
@@ -20,8 +22,11 @@ class Drawer {
     public:
         Drawer(std::string, uint x, uint y);
         ~Drawer();
+        Texture* Image(std::string);
+        void DrawImage(Texture* texture, const Rectangle *src, const Rectangle *dst, const double angle, const Point *center);
+        void DrawImage(Texture* texture, const Rectangle* src, const Rectangle* dst);
         void clearScreen();
-        void update();
+        void updateScreen();
 };
 
 class SDrawer {
