@@ -19,6 +19,9 @@ $(BUILD_DIR)/%.cpp.o: %.cpp
 	$(MKDIR_P) $(dir $@)
 	$(CXX) $(CPPFLAGS) $(SDLFLAGS)  $(CXXFLAGS) -c $< -o $@
 
+run: $(BUILD_DIR)/$(TARGET_EXEC)
+	$(BUILD_DIR)/$(TARGET_EXEC)
+
 .PHONY: clean
 
 clean:
