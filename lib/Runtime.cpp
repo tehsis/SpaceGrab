@@ -11,16 +11,7 @@ void Runtime::Start() {
 void Runtime::loop() {
     onStart();
     bool quit = false;
-    SDL_Event Event;
     while(!quit) {
-        while(SDL_PollEvent(&Event)) {
-            if (SDL_QUIT == Event.type) {
-                quit = true;
-            }
-
-            handleEvents(&Event);
-        }
-
         onLoop();
     }
 
@@ -31,6 +22,11 @@ void Runtime::onLoop() {
     std::for_each(entities.begin(), entities.end(), [] (Tehsis::Entity* e) {
       e->onUpdate();  
     });
+
+    SDL_Event Event;
+        while(SDL_PollEvent(&Event)) {
+    handleEvents(&Event);
+        }
 }
 
 void Runtime::handleEvents(SDL_Event* event) {
