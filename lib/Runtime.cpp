@@ -1,11 +1,37 @@
 #include "Runtime.h"
 
+#ifdef __EMSCRIPTEN__
+#include <emscripten.h>
+#endif
+
+
+void startRuntime(void* r) {
+    static_cast<Runtime*>(r)->WebStart();
+}
+
 Runtime::Runtime() { }
 Runtime::~Runtime() {
 }
 
+void Runtime::NativeStart() {
+  loop();
+}
+
 void Runtime::Start() {
-    loop();
+  #ifdef __EMSCRIPTEN__
+    emscripten_set_main_loop_arg(startRuntime, this, 0, 1);
+  #else
+    NativeStart();
+  #endif
+}
+
+void Runtime::WebStart() {
+  SDL_Event Event;
+  while(SDL_PollEvent(&Event)) {
+    handleEvents(&Event);
+  }
+
+  onLoop();
 }
 
 void Runtime::loop() {
@@ -54,3 +80,5 @@ void Runtime::onExit() {
 void Runtime::AddEntity(Tehsis::Entity *e) {
     entities.push_back(e);
 }
+
+
