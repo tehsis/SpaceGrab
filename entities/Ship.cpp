@@ -9,8 +9,7 @@ const double PI = 3.14159265;
 const double degToRadFactor = PI / 180;
 
 int vel(int time) {
-    int x = time % 2;
-    return x * x + x;
+    return log(time);
 }
 
 Ship::Ship() {
@@ -33,6 +32,8 @@ void Ship::onUpdate() {
       lastTime = SDL_GetTicks();
   }
  
+  int currVel = vel(currentTime);
+
   if (isMovingFoward) {
     shipRect.y -= vel(currentTime) * cos(angle * degToRadFactor);
     shipRect.x += vel(currentTime) * sin(angle * degToRadFactor);
@@ -40,6 +41,23 @@ void Ship::onUpdate() {
     shipRect.y += vel(currentTime) * cos(angle * degToRadFactor);
     shipRect.x -= vel(currentTime) * sin(angle * degToRadFactor); 
   }
+
+  if (shipRect.y < -80) {
+    shipRect.y = 560;
+  }
+
+  if (shipRect.x < -80) {
+      shipRect.x = 740;
+  }
+
+  if (shipRect.y > 560) {
+      shipRect.y = -80;
+  }
+
+  if (shipRect.x > 740) {
+      shipRect.x = -80;
+  }
+
 
   drawer->DrawImage(t, NULL, &shipRect, angle, NULL);
 }
