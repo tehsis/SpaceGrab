@@ -7,6 +7,8 @@
 class Ship: public Tehsis::Entity {
     private:
         Tehsis::Rectangle shipRect;
+        double angle = 0;
+        double angleVel = 10;
         int velocity = 10;
 
     public:
