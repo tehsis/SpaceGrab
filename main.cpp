@@ -14,6 +14,8 @@ int main() {
 
     r.AddEntity(&b);
     r.AddEntity(&s);
+    
+    b.Follow(&s);
 
     r.Start();
     return 0;

@@ -20,5 +20,7 @@ class Ship: public Tehsis::Entity {
         void onStart() override;
         void onEvent(SDL_Event*) override;
         void onUpdate() override;
+
+        Tehsis::Rectangle* getRect();
 };
 #endif
