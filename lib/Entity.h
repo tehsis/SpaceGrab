@@ -7,6 +7,7 @@
 
 namespace Tehsis {
 class Entity {
+
     public:
         virtual void onStart() {};
         virtual void onUpdate() {};

@@ -81,7 +81,9 @@ void Ship::onEvent(SDL_Event *e) {
         break;
     }
   }
+}
 
-  
+Tehsis::Rectangle* Ship::getRect() {
+    return &shipRect;
 }
 

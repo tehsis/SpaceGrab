@@ -24,6 +24,8 @@ int main() {
 
     r.AddEntity(&b);
     r.AddEntity(&s);
+    
+    b.Follow(&s);
 
     r.onStart();    
     emscripten_set_main_loop(one_iter, 60, 1);
