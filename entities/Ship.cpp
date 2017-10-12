@@ -8,8 +8,8 @@ const double PI = 3.14159265;
 
 const double degToRadFactor = PI / 180;
 
-int vel(int time) {
-    return log(time);
+int vel(int factor, int time) {
+    return factor + log(time);
 }
 
 Ship::Ship() {
@@ -32,14 +32,13 @@ void Ship::onUpdate() {
       lastTime = SDL_GetTicks();
   }
  
-  int currVel = vel(currentTime);
 
-  if (isMovingFoward) {
-    shipRect.y -= vel(currentTime) * cos(angle * degToRadFactor);
-    shipRect.x += vel(currentTime) * sin(angle * degToRadFactor);
+  if (velocity >= 0) {
+    shipRect.y -= vel(velocity, currentTime) * cos(angle * degToRadFactor);
+    shipRect.x += vel(velocity, currentTime) * sin(angle * degToRadFactor);
   } else {
-    shipRect.y += vel(currentTime) * cos(angle * degToRadFactor);
-    shipRect.x -= vel(currentTime) * sin(angle * degToRadFactor); 
+    shipRect.y += vel(velocity*-1, currentTime) * cos(angle * degToRadFactor);
+    shipRect.x -= vel(velocity*-1, currentTime) * sin(angle * degToRadFactor); 
   }
 
   if (shipRect.y < -80) {
@@ -59,6 +58,7 @@ void Ship::onUpdate() {
   }
 
 
+  cout << "velocity: " << velocity << endl;
   drawer->DrawImage(t, NULL, &shipRect, angle, NULL);
 }
 
@@ -66,10 +66,12 @@ void Ship::onEvent(SDL_Event *e) {
    if (e->type == SDL_KEYDOWN) {
     switch (e->key.keysym.sym) {
       case SDLK_DOWN:
-        isMovingFoward = false;
+        velocity = velocity <= -10 ? velocity : velocity - 1;
+
         break;
       case SDLK_UP:
-        isMovingFoward = true;
+        velocity = velocity >= 10 ? velocity : velocity + 1;
+
         break;
       case SDLK_RIGHT:
         angle = angle > 360 ? (angle - 360) + angleVel : angle + angleVel ;

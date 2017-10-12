@@ -6,6 +6,7 @@
 #include <vector>
 #include "Entity.h"
 
+
 class Runtime {
     public:
         SDL_Event event;
@@ -20,5 +21,8 @@ class Runtime {
         ~Runtime();
         void AddEntity(Tehsis::Entity*);
         void Start();
+        void WebStart();
+        void NativeStart();
 };
+
 #endif
