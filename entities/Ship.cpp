@@ -18,8 +18,8 @@ Ship::Ship() {
 
   shipRect.h = 80;
   shipRect.w = 80;
-  shipRect.x = 640/2 - 40;
-  shipRect.y = 480/2 - 40;
+  shipRect.x = 600;
+  shipRect.y = 440;
 }
 
 void Ship::onStart() {
@@ -33,12 +33,40 @@ void Ship::onUpdate() {
       lastTime = SDL_GetTicks();
   }
  
+  int newy = shipRect.y - vel(velocity, currentTime) * cos(angle * degToRadFactor);
+  int newx = shipRect.x + vel(velocity, currentTime) * sin(angle * degToRadFactor);
 
-  shipRect.y -= vel(velocity, currentTime) * cos(angle * degToRadFactor);
-  shipRect.x += vel(velocity, currentTime) * sin(angle * degToRadFactor);
+  if (velocity > 0 && newy > 0 && newy < 480*2 - 80) {
+    shipRect.y = newy;
+  }
 
+  if (velocity > 0 && newx > 0 && newx < 640*2 - 80) {
+    shipRect.x = newx;
+  }
 
-  drawer->SetCamera(shipRect.x - 320, shipRect.y - 240, 640, 480);
+  int camerax = shipRect.x - 320;
+  int cameray = shipRect.y - 240;
+
+  if (camerax < 0) {
+    camerax = 0;
+  }
+
+  if (cameray < 0) {
+    cameray = 0;
+  }
+
+  if (camerax > 640*2 - 640) {
+    camerax = 640*2 - 640;
+  }
+
+  if (cameray > 480*2 - 480) {
+    cameray = 480*2 - 480;
+  }
+
+  drawer->SetCamera(camerax, cameray, 640, 480);
+
+  std::cout << "x: " << shipRect.x << std::endl;
+  std::cout << "y: " << shipRect.y << std::endl;  
 
   cout << "velocity: " << velocity << endl;
   drawer->DrawImage(texture, NULL, &shipRect, angle, NULL);

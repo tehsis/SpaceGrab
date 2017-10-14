@@ -5,10 +5,10 @@
 
 Background::Background() {
   rect = new Tehsis::Rectangle;
-  rect->x = -640;
-  rect->y = -480;
-  rect->w = 640 * 3;
-  rect->h = 480 * 3;
+  rect->x = 0;
+  rect->y = 0;
+  rect->w = 640 * 2;
+  rect->h = 480 * 2;
 
   Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();  
   t = drawer->Image("../assets/background.png");  
