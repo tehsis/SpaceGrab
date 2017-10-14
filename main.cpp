@@ -16,8 +16,8 @@ int main() {
     Asteroid a;
 
     r.AddEntity(&b);
+    r.AddEntity(&a);        
     r.AddEntity(&s);
-    r.AddEntity(&a);
     
     r.Start();
     return 0;

@@ -9,7 +9,7 @@ const double PI = 3.14159265;
 const double degToRadFactor = PI / 180;
 
 int vel(int factor, int time) {
-    return factor + log(time);
+    return log(time*factor);
 }
 
 Ship::Ship() {
@@ -36,11 +36,11 @@ void Ship::onUpdate() {
   int newy = shipRect.y - vel(velocity, currentTime) * cos(angle * degToRadFactor);
   int newx = shipRect.x + vel(velocity, currentTime) * sin(angle * degToRadFactor);
 
-  if (velocity > 0 && newy > 0 && newy < 480*2 - 80) {
+  if (newy > 0 && newy < 480*2 - 80) {
     shipRect.y = newy;
   }
 
-  if (velocity > 0 && newx > 0 && newx < 640*2 - 80) {
+  if (newx > 0 && newx < 640*2 - 80) {
     shipRect.x = newx;
   }
 
@@ -76,11 +76,11 @@ void Ship::onEvent(SDL_Event *e) {
    if (e->type == SDL_KEYDOWN) {
     switch (e->key.keysym.sym) {
       case SDLK_DOWN:
-        velocity = velocity <= 0 ? velocity : velocity - 1;
+        velocity = velocity <= 1 ? velocity : velocity - 1;
 
         break;
       case SDLK_UP:
-        velocity = velocity >= 500 ? velocity : velocity + 1;
+        velocity = velocity >= 20 ? velocity : velocity + 1;
 
         break;
       case SDLK_RIGHT:

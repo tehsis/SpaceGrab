@@ -10,7 +10,7 @@ class Ship: public Tehsis::Entity {
         Tehsis::Rectangle shipRect;
         double angle = 0;
         double angleVel = 10;
-        int velocity = 0;
+        int velocity = 1;
 
         bool isMovingFoward = true;
 
