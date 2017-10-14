@@ -33,13 +33,8 @@ void Ship::onUpdate() {
   }
  
 
-  if (velocity >= 0) {
-    shipRect.y -= vel(velocity, currentTime) * cos(angle * degToRadFactor);
-    shipRect.x += vel(velocity, currentTime) * sin(angle * degToRadFactor);
-  } else {
-    shipRect.y += vel(velocity*-1, currentTime) * cos(angle * degToRadFactor);
-    shipRect.x -= vel(velocity*-1, currentTime) * sin(angle * degToRadFactor); 
-  }
+  shipRect.y -= vel(velocity, currentTime) * cos(angle * degToRadFactor);
+  shipRect.x += vel(velocity, currentTime) * sin(angle * degToRadFactor);
 
   if (shipRect.y < -80) {
     shipRect.y = 560;
@@ -57,6 +52,7 @@ void Ship::onUpdate() {
       shipRect.x = -80;
   }
 
+  drawer->SetCamera(shipRect.x - 320, shipRect.y - 240, 640, 480);
 
   cout << "velocity: " << velocity << endl;
   drawer->DrawImage(t, NULL, &shipRect, angle, NULL);
@@ -66,11 +62,11 @@ void Ship::onEvent(SDL_Event *e) {
    if (e->type == SDL_KEYDOWN) {
     switch (e->key.keysym.sym) {
       case SDLK_DOWN:
-        velocity = velocity <= -10 ? velocity : velocity - 1;
+        velocity = velocity <= 0 ? velocity : velocity - 1;
 
         break;
       case SDLK_UP:
-        velocity = velocity >= 10 ? velocity : velocity + 1;
+        velocity = velocity >= 500 ? velocity : velocity + 1;
 
         break;
       case SDLK_RIGHT:

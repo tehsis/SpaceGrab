@@ -8,12 +8,9 @@
 class Background: public Tehsis::Entity {
   protected:
     Tehsis::Rectangle* rect;
-    Ship* follower;
-    void onFollow();
   public:
     Background();
     void onUpdate() override;
-    void Follow(Ship*);
 };
 
 #endif

@@ -19,6 +19,7 @@ class Drawer {
     private:
         SDL_Window* window;
         SDL_Renderer* renderer;
+        Rectangle* camera;
     public:
         Drawer(std::string, uint x, uint y);
         ~Drawer();
@@ -27,6 +28,7 @@ class Drawer {
         void DrawImage(Texture* texture, const Rectangle* src, const Rectangle* dst);
         void clearScreen();
         void updateScreen();
+        void SetCamera(int x, int y, int w, int h);
 };
 
 class SDrawer {
