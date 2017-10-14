@@ -2,6 +2,8 @@
 
 #include "entities/Ship.h"
 #include "entities/Background.h"
+#include "entities/Asteroid.h"
+
 
 #include <iostream>
 using namespace std;
@@ -11,10 +13,12 @@ int main() {
 
     Ship s;
     Background b;
+    Asteroid a;
 
     r.AddEntity(&b);
     r.AddEntity(&s);
-
+    r.AddEntity(&a);
+    
     r.Start();
     return 0;
 }
