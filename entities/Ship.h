@@ -6,6 +6,7 @@
 
 class Ship: public Tehsis::Entity {
     private:
+        Tehsis::Texture* texture;
         Tehsis::Rectangle shipRect;
         double angle = 0;
         double angleVel = 10;

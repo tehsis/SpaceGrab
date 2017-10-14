@@ -9,13 +9,13 @@ Background::Background() {
   rect->y = -480;
   rect->w = 640 * 3;
   rect->h = 480 * 3;
+
+  Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();  
+  t = drawer->Image("../assets/background.png");  
 }
 
 
 void Background::onUpdate() {
   Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();
-  Tehsis::Texture* t = drawer->Image("../assets/background.png");
-
-
   drawer->DrawImage(t, NULL, rect);
 }

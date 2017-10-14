@@ -7,6 +7,7 @@
 
 class Background: public Tehsis::Entity {
   protected:
+    Tehsis::Texture* t;
     Tehsis::Rectangle* rect;
   public:
     Background();

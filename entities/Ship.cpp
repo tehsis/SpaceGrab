@@ -13,6 +13,9 @@ int vel(int factor, int time) {
 }
 
 Ship::Ship() {
+  Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();
+  texture = drawer->Image("../assets/ship.png");
+
   shipRect.h = 80;
   shipRect.w = 80;
   shipRect.x = 640/2 - 40;
@@ -23,9 +26,7 @@ void Ship::onStart() {
 }
 
 void Ship::onUpdate() {
-  Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();
-  Tehsis::Texture* t = drawer->Image("../assets/ship.png");
-
+  Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();  
    uint currentTime = SDL_GetTicks() - lastTime;
 
   if (currentTime > 5) {
@@ -36,26 +37,11 @@ void Ship::onUpdate() {
   shipRect.y -= vel(velocity, currentTime) * cos(angle * degToRadFactor);
   shipRect.x += vel(velocity, currentTime) * sin(angle * degToRadFactor);
 
-  if (shipRect.y < -80) {
-    shipRect.y = 560;
-  }
-
-  if (shipRect.x < -80) {
-      shipRect.x = 740;
-  }
-
-  if (shipRect.y > 560) {
-      shipRect.y = -80;
-  }
-
-  if (shipRect.x > 740) {
-      shipRect.x = -80;
-  }
 
   drawer->SetCamera(shipRect.x - 320, shipRect.y - 240, 640, 480);
 
   cout << "velocity: " << velocity << endl;
-  drawer->DrawImage(t, NULL, &shipRect, angle, NULL);
+  drawer->DrawImage(texture, NULL, &shipRect, angle, NULL);
 }
 
 void Ship::onEvent(SDL_Event *e) {
