@@ -63,7 +63,7 @@ void Ship::onUpdate() {
     cameray = 480*2 - 480;
   }
 
-  drawer->SetCamera(camerax, cameray, 640, 480);
+  drawer->MoveCamera(camerax, cameray);
 
   std::cout << "x: " << shipRect.x << std::endl;
   std::cout << "y: " << shipRect.y << std::endl;  
