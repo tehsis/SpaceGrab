@@ -4,6 +4,12 @@
 #include "entities/Background.h"
 #include "entities/Asteroid.h"
 
+#include <vector>
+using namespace std;
+
+#include "globals.h"
+
+int random (int, int);
 
 #include <iostream>
 using namespace std;
@@ -11,14 +17,32 @@ using namespace std;
 int main() {
     GameRuntime r;
 
-    Ship s;
-    Background b;
-    Asteroid a;
 
+    Background b;
     r.AddEntity(&b);
-    r.AddEntity(&a);        
+
+
+      Ship s;
     r.AddEntity(&s);
+
+    for(int i=0; i<SpaceGrab::ASTEROIDS_AMOUNT; i++) {
+      int x = random(0, SpaceGrab::LEVEL_WIDTH);
+      int y = random(0, SpaceGrab::LEVEL_HEIGHT);
+      Asteroid* a = new Asteroid(x, y);
+      r.AddEntity(a);
+    }
+
     
     r.Start();
     return 0;
+}
+
+int random (int min, int max){
+    int n = max - min + 1;
+    int remainder = RAND_MAX % n;
+    int x;
+    do{
+        x = rand();
+    }while (x >= RAND_MAX - remainder);
+    return min + x % n;
 }

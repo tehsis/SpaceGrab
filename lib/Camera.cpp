@@ -23,3 +23,11 @@ Tehsis::Rectangle* Tehsis::Camera::GetRelativeRect(const Rectangle* src) {
 
     return relative;
 }
+
+unsigned int Tehsis::Camera::getWidth() {
+    return rect->w;
+}
+
+unsigned int Tehsis::Camera::getHeight() {
+    return rect->h;
+}

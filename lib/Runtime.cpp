@@ -1,4 +1,5 @@
 #include "Runtime.h"
+#include <iostream>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -54,7 +55,7 @@ void Runtime::loop() {
 }
 
 void Runtime::onLoop() {
-    std::for_each(entities.begin(), entities.end(), [] (Tehsis::Entity* e) {
+    std::for_each(entities.begin(), entities.end(), [&] (Tehsis::Entity* e) {
       e->onUpdate();  
     });
 }

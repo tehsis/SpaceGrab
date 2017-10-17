@@ -54,6 +54,14 @@ void Drawer::DrawImage(Texture* texture, const Rectangle* src, const Rectangle* 
 
 }
 
+unsigned int Drawer::getCameraWidth() {
+    return camera->getWidth();
+}
+
+unsigned int Drawer::getCameraHeight() {
+    return camera->getHeight();
+}
+
 void Drawer::clearScreen() {
     SDL_RenderClear(renderer);
 }

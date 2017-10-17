@@ -1,6 +1,8 @@
 #include "Asteroid.h"
 
-Asteroid::Asteroid() {
+#include <iostream>
+
+Asteroid::Asteroid(unsigned x, unsigned y) {
   Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();
   t = drawer->Image("../assets/asteroid.png");    
 
@@ -8,12 +10,13 @@ Asteroid::Asteroid() {
 
   r->w = 120;
   r->h = 120;
-  r->x = 20;
-  r->y = 20;
+  r->x = x;
+  r->y = y;
 }
 
 void Asteroid::onUpdate() {
   Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();
   
+  std::cout << "Rendering asteroid (" << r->x << ", " << r->y << ")" << std::endl;
   drawer->DrawImage(t, NULL, r);
 }

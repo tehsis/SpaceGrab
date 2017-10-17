@@ -1,7 +1,9 @@
-#include "Ship.h"
-
 #include <iostream>
 #include <cmath>
+
+#include "Ship.h"
+#include "../globals.h"
+
 using namespace std;
 
 const double PI = 3.14159265;
@@ -36,16 +38,16 @@ void Ship::onUpdate() {
   int newy = shipRect.y - vel(velocity, currentTime) * cos(angle * degToRadFactor);
   int newx = shipRect.x + vel(velocity, currentTime) * sin(angle * degToRadFactor);
 
-  if (newy > 0 && newy < 480*2 - 80) {
+  if (newy > 0 && newy < SpaceGrab::LEVEL_HEIGHT - shipRect.h) {
     shipRect.y = newy;
   }
 
-  if (newx > 0 && newx < 640*2 - 80) {
+  if (newx > 0 && newx < SpaceGrab::LEVEL_WIDTH - shipRect.w) {
     shipRect.x = newx;
   }
 
-  int camerax = shipRect.x - 320;
-  int cameray = shipRect.y - 240;
+  int camerax = shipRect.x - drawer->getCameraWidth() / 2;
+  int cameray = shipRect.y - drawer->getCameraHeight() / 2;
 
   if (camerax < 0) {
     camerax = 0;
@@ -55,20 +57,16 @@ void Ship::onUpdate() {
     cameray = 0;
   }
 
-  if (camerax > 640*2 - 640) {
-    camerax = 640*2 - 640;
+  if (camerax > SpaceGrab::LEVEL_WIDTH - drawer->getCameraWidth() ) {
+    camerax = SpaceGrab::LEVEL_WIDTH - drawer->getCameraWidth();
   }
 
-  if (cameray > 480*2 - 480) {
-    cameray = 480*2 - 480;
+  if (cameray > SpaceGrab::LEVEL_HEIGHT - drawer->getCameraHeight()) {
+    cameray = SpaceGrab::LEVEL_HEIGHT - drawer->getCameraHeight();
   }
 
   drawer->MoveCamera(camerax, cameray);
 
-  std::cout << "x: " << shipRect.x << std::endl;
-  std::cout << "y: " << shipRect.y << std::endl;  
-
-  cout << "velocity: " << velocity << endl;
   drawer->DrawImage(texture, NULL, &shipRect, angle, NULL);
 }
 

@@ -6,10 +6,11 @@
 
 class Asteroid: public Tehsis::Entity {
 private:
+  static int count;
   Tehsis::Rectangle* r;
   Tehsis::Texture* t;
 public:
-  Asteroid();
+  Asteroid(unsigned x, unsigned y);
   void onUpdate() override;  
 };
 

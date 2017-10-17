@@ -34,8 +34,6 @@ class Drawer {
         void MoveCamera(int x, int y);
         uint getCameraWidth();
         uint getCameraHeight();
-        uint getLevelWidth();
-        uint getLevelHeight();
 };
 
 class SDrawer {

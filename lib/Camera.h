@@ -12,6 +12,8 @@ namespace Tehsis {
         Camera(unsigned x, unsigned y, unsigned width, unsigned height);
         Rectangle* GetRelativeRect(const Rectangle* src);
         void Move(unsigned x, unsigned y);
+        unsigned int getWidth();
+        unsigned int getHeight();
     };
 }
 
