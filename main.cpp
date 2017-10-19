@@ -25,11 +25,12 @@ int main() {
       Ship s;
     r.AddEntity(&s);
 
-    for(int i=0; i<SpaceGrab::ASTEROIDS_AMOUNT; i++) {
+    for (int i=0; i< SpaceGrab::ASTEROIDS_AMOUNT;i++) {
       int x = random(0, SpaceGrab::LEVEL_WIDTH);
       int y = random(0, SpaceGrab::LEVEL_HEIGHT);
       Asteroid* a = new Asteroid(x, y);
       r.AddEntity(a);
+      s.addAsteroid(a);
     }
 
     

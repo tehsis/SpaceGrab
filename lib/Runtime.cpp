@@ -56,13 +56,18 @@ void Runtime::loop() {
 
 void Runtime::onLoop() {
     std::for_each(entities.begin(), entities.end(), [&] (Tehsis::Entity* e) {
-      e->onUpdate();  
+      std::cout << "active: " << e->isActive() << std::endl;
+      if (e->isActive()) {
+        e->onUpdate();  
+      }
     });
 }
 
 void Runtime::handleEvents(SDL_Event* event) {
     std::for_each(entities.begin(), entities.end(), [&] (Tehsis::Entity* e) {
-        e->onEvent(event);  
+        if (e->isActive()) {            
+            e->onEvent(event);  
+        }
     });
 }
 
