@@ -23,7 +23,7 @@ Ship::Ship() {
   
   reset();
 
-  collider = new Collider(shipRect.h, shipRect.w, shipRect.x, shipRect.y);
+  collider = new Collider(shipRect.h/2, shipRect.w/2, shipRect.x, shipRect.y);
 }
 
 void Ship::onStart() {
