@@ -31,10 +31,9 @@ void Asteroid::onUpdate() {
 
   if (time >= 200) {
     previousTime = SDL_GetTicks();
-    animationCount = animationCount >= 15 ? 0 : animationCount + 1;
+    // FIXME: I skip the first frame because is not properly centered.
+    animationCount = animationCount >= 15 ? 1 : animationCount + 1;
   }
-
-  
 
   s->w = 120;
   s->h = 120;
