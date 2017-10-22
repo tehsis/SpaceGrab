@@ -7,13 +7,11 @@
 
 class Background: public Tehsis::Entity {
   protected:
+    Tehsis::Texture* t;
     Tehsis::Rectangle* rect;
-    Ship* follower;
-    void onFollow();
   public:
     Background();
     void onUpdate() override;
-    void Follow(Ship*);
 };
 
 #endif

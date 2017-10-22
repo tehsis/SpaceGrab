@@ -1,53 +1,22 @@
 #include "Background.h"
 
 #include "../lib/Drawer.h"
+#include "../globals.h"
 
 
 Background::Background() {
   rect = new Tehsis::Rectangle;
   rect->x = 0;
   rect->y = 0;
-  rect->w = 640;
-  rect->h = 480;
+  rect->w = SpaceGrab::LEVEL_WIDTH;
+  rect->h = SpaceGrab::LEVEL_HEIGHT;
+
+  Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();  
+  t = drawer->Image("../assets/background.png");  
 }
 
 
 void Background::onUpdate() {
   Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();
-  Tehsis::Texture* t = drawer->Image("../assets/background.png");
-
-  onFollow();
-
-  drawer->DrawImage(t, rect, NULL);
-}
-
-void Background::Follow(Ship *e) {
-    follower = e;
-}
-
-void Background::onFollow() {
-    if (follower == NULL) {
-        return;
-    }
-
-    Tehsis::Rectangle* followerRect = follower->getRect(); 
-
-    rect->x = followerRect->x - 640/2;
-    rect->y = followerRect->y - 480/2;
-
-    if (rect->x < 0) {
-        rect->x = 0;
-    }
-
-    if (rect->x > 640*2) {
-        rect->x = 640*2;
-    }
-
-    if (rect->y < 0) {
-        rect->y = 0;
-    }
-
-    if (rect->y > 480*2) {
-        rect->y = 480*2;
-    }
+  drawer->DrawImage(t, NULL, rect);
 }

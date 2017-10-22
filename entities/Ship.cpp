@@ -1,76 +1,151 @@
-#include "Ship.h"
-
 #include <iostream>
 #include <cmath>
+
+#include "Ship.h"
+#include "../globals.h"
+
+#include <algorithm>
+
 using namespace std;
 
 const double PI = 3.14159265;
 
 const double degToRadFactor = PI / 180;
 
-int vel(int factor, int time) {
-    return factor + log(time);
+int vel(int vel) {
+    return log(vel) + 1;
 }
 
 Ship::Ship() {
-  shipRect.h = 80;
-  shipRect.w = 80;
-  shipRect.x = 640/2 - 40;
-  shipRect.y = 480/2 - 40;
+  Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();
+  texture = drawer->Image("../assets/ship.png");
+  explosion = drawer->Image("../assets/explosion.png");
+  
+  reset();
+
+  collider = new Collider(shipRect.h/2, shipRect.w/2, shipRect.x, shipRect.y);
 }
 
 void Ship::onStart() {
 }
 
+void Ship::addAsteroid(Asteroid* asteroid) {
+  asteroids.push_back(asteroid);
+}
+
+void Ship::reset() {
+  shipRect.h = 80;
+  shipRect.w = 80;
+  shipRect.x = 600;
+  shipRect.y = 440;
+  isExploding = false;
+  explodePositionX = 0;
+  explodePositionY = 0;
+
+
+  std::for_each(asteroids.begin(), asteroids.end(), [&] (Asteroid* a) {
+    a->setActive(true);
+  });
+}
+
 void Ship::onUpdate() {
-  Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();
-  Tehsis::Texture* t = drawer->Image("../assets/ship.png");
+  Tehsis::Drawer* drawer = Tehsis::SDrawer::Drawer();  
 
-   uint currentTime = SDL_GetTicks() - lastTime;
+  currentTime = SDL_GetTicks();
 
-  if (currentTime > 5) {
-      lastTime = SDL_GetTicks();
+  if (isExploding) {
+    shipRect.h = 64;
+    shipRect.w = 64;
+
+    explosionRect.x = explodePositionX * 64;
+    explosionRect.y = explodePositionY * 64;
+    explosionRect.w = 64;
+    explosionRect.h = 64;
+
+    drawer->DrawImage(explosion, &explosionRect, &shipRect, angle, NULL);    
+    
+    int time = currentTime - lastTime;    
+
+    if (time >= 200) {
+      if (explodePositionX <= 3) {
+        explodePositionX++;        
+      } else {
+        explodePositionX = 0;
+        explodePositionY++;
+      }
+
+      if (explodePositionY >=3 && explodePositionX >= 3) {
+        reset();
+      }
+
+      lastTime = currentTime;      
+    }
+
+    return;
   }
  
+  int newy = shipRect.y - vel(velocity) * cos(angle * degToRadFactor);
+  int newx = shipRect.x + vel(velocity) * sin(angle * degToRadFactor);
 
-  if (velocity >= 0) {
-    shipRect.y -= vel(velocity, currentTime) * cos(angle * degToRadFactor);
-    shipRect.x += vel(velocity, currentTime) * sin(angle * degToRadFactor);
-  } else {
-    shipRect.y += vel(velocity*-1, currentTime) * cos(angle * degToRadFactor);
-    shipRect.x -= vel(velocity*-1, currentTime) * sin(angle * degToRadFactor); 
+  int oldx = shipRect.x;
+  int oldy = shipRect.y;
+
+  if (newy > 0 && newy < SpaceGrab::LEVEL_HEIGHT - shipRect.h) {
+    shipRect.y = newy;
   }
 
-  if (shipRect.y < -80) {
-    shipRect.y = 560;
+  if (newx > 0 && newx < SpaceGrab::LEVEL_WIDTH - shipRect.w) {
+    shipRect.x = newx;
   }
 
-  if (shipRect.x < -80) {
-      shipRect.x = 740;
+  int camerax = shipRect.x - drawer->getCameraWidth() / 2;
+  int cameray = shipRect.y - drawer->getCameraHeight() / 2;
+
+  if (camerax < 0) {
+    camerax = 0;
   }
 
-  if (shipRect.y > 560) {
-      shipRect.y = -80;
+  if (cameray < 0) {
+    cameray = 0;
   }
 
-  if (shipRect.x > 740) {
-      shipRect.x = -80;
+  if (camerax > SpaceGrab::LEVEL_WIDTH - drawer->getCameraWidth() ) {
+    camerax = SpaceGrab::LEVEL_WIDTH - drawer->getCameraWidth();
   }
 
+  if (cameray > SpaceGrab::LEVEL_HEIGHT - drawer->getCameraHeight()) {
+    cameray = SpaceGrab::LEVEL_HEIGHT - drawer->getCameraHeight();
+  }
 
-  cout << "velocity: " << velocity << endl;
-  drawer->DrawImage(t, NULL, &shipRect, angle, NULL);
+  drawer->MoveCamera(camerax, cameray);
+  collider->Move(shipRect.x, shipRect.y);  
+
+  std::for_each(asteroids.begin(), asteroids.end(), [&] (Asteroid* a) {
+    if (isColliding(a)) {
+      explode();
+      a->setActive(false);
+    }
+
+  });
+
+  drawer->DrawImage(texture, NULL, &shipRect, angle, NULL);
+}
+
+void Ship::explode() {
+  isExploding = true;
 }
 
 void Ship::onEvent(SDL_Event *e) {
+   if (isExploding) return;
+
    if (e->type == SDL_KEYDOWN) {
     switch (e->key.keysym.sym) {
       case SDLK_DOWN:
-        velocity = velocity <= -10 ? velocity : velocity - 1;
+        velocity = velocity <= 1 ? velocity : velocity - 1;
 
         break;
       case SDLK_UP:
-        velocity = velocity >= 10 ? velocity : velocity + 1;
+        velocity = velocity >= 20 ? velocity : velocity + 1;
 
         break;
       case SDLK_RIGHT:
@@ -83,7 +158,7 @@ void Ship::onEvent(SDL_Event *e) {
   }
 }
 
-Tehsis::Rectangle* Ship::getRect() {
-    return &shipRect;
+bool Ship::isColliding(Asteroid* other) {
+    Collider* col = other->GetCollider();
+    return collider->IsColliding(col);
 }
-

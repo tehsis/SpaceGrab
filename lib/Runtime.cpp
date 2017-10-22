@@ -1,4 +1,5 @@
 #include "Runtime.h"
+#include <iostream>
 
 #ifdef __EMSCRIPTEN__
 #include <emscripten.h>
@@ -45,8 +46,11 @@ void Runtime::loop() {
 }
 
 void Runtime::onLoop() {
-    std::for_each(entities.begin(), entities.end(), [] (Tehsis::Entity* e) {
-      e->onUpdate();  
+    std::for_each(entities.begin(), entities.end(), [&] (Tehsis::Entity* e) {
+      std::cout << "active: " << e->isActive() << std::endl;
+      if (e->isActive()) {
+        e->onUpdate();  
+      }
     });
 
     SDL_Event Event;
@@ -57,7 +61,9 @@ void Runtime::onLoop() {
 
 void Runtime::handleEvents(SDL_Event* event) {
     std::for_each(entities.begin(), entities.end(), [&] (Tehsis::Entity* e) {
-        e->onEvent(event);  
+        if (e->isActive()) {            
+            e->onEvent(event);  
+        }
     });
 }
 
