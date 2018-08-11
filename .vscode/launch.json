@@ -1,0 +1,25 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+      { 
+        "name": "(lldb) Attach",
+        "type": "cppdbg",
+        "request": "attach",
+        "program": "${workspaceRoot}/build/game",
+        "processId": "${command:pickProcess}",
+        "MIMode": "lldb"
+      },
+      {
+        "name": "(lldb) Launch",
+        "type": "cppdbg",
+        "request": "launch",
+        "program": "${workspaceRoot}/build/game",
+        "args": [],
+        "stopAtEntry": false,
+        "cwd": "${workspaceRoot}",
+        "environment": [],
+        "externalConsole": true,
+        "MIMode": "lldb"
+      }
+    ]
+  }

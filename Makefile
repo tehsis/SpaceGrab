@@ -5,7 +5,7 @@ CWEB ?= em++
 SRC_DIRS ?= "."
 BUILD_DIR ?= ./build
 
-SDLFLAGS := $(shell sdl2-config --cflags --libs) -lSDL2_Image -w -Wc++17
+SDLFLAGS := $(shell sdl2-config --cflags --libs) -lSDL2_Image -lSDL2_TTF -w -Wc++17
 CPPFLAGS := --std=c++14
 WEBFLAGS := -O3 -s USE_SDL_IMAGE="2" -s SDL2_IMAGE_FORMATS="['png']"
 

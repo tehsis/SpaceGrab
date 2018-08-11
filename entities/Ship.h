@@ -7,7 +7,6 @@
 
 #include "Asteroid.h"
 
-
 #include <vector>
 
 class Ship: public Tehsis::Entity {
@@ -28,6 +27,11 @@ class Ship: public Tehsis::Entity {
         double angle = 0;
         double angleVel = 10;
         int velocity = 1;
+
+        Font* font;
+        Rectangle* velRect;
+        Tehsis::Color velColor;
+        Tehsis::Texture* velText;
 
         bool isMovingFoward = true;
 

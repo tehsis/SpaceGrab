@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 
 #include "Aliases.h"
@@ -27,8 +28,12 @@ class Drawer {
         Drawer(std::string, uint screen_width, uint screen_height);
         ~Drawer();
         Texture* Image(std::string);
+        Texture* Text(std::string, Color, Font* font);
+        Font* LoadFont(std::string path);
+        void DrawImageAbsolute(Texture* texture, const Rectangle *src, const Rectangle *dst, const double angle, const Point *center);
         void DrawImage(Texture* texture, const Rectangle *src, const Rectangle *dst, const double angle, const Point *center);
         void DrawImage(Texture* texture, const Rectangle* src, const Rectangle* dst);
+        void DrawImageAbsolute(Texture* texture, const Rectangle* src, const Rectangle* dst);
         void clearScreen();
         void updateScreen();
         void MoveCamera(int x, int y);

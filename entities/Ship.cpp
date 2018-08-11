@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cmath>
 
+#include <sstream>
+
 #include "Ship.h"
 #include "../globals.h"
 
@@ -23,6 +25,14 @@ Ship::Ship() {
   
   reset();
 
+  velRect = new Tehsis::Rectangle;
+  velRect->x = 20;
+  velRect->y = 20;
+  velRect->w = 200;
+  velRect->h = 50;
+  font = drawer->LoadFont("../assets/ShareTechMono-Regular.ttf"); 
+  velColor = Color{ 255, 0, 0 };
+
   collider = new Collider(shipRect.h/2, shipRect.w/2, shipRect.x, shipRect.y);
 }
 
@@ -41,8 +51,7 @@ void Ship::reset() {
   isExploding = false;
   explodePositionX = 0;
   explodePositionY = 0;
-
-
+  velocity = 1;
   std::for_each(asteroids.begin(), asteroids.end(), [&] (Asteroid* a) {
     a->setActive(true);
   });
@@ -127,7 +136,12 @@ void Ship::onUpdate() {
     }
 
   });
+  
+  std::ostringstream vel;
+  vel << "Velocity: " << velocity;
+  velText = drawer->Text(vel.str(), velColor, font);
 
+  drawer->DrawImage(velText, NULL, velRect);
   drawer->DrawImage(texture, NULL, &shipRect, angle, NULL);
 }
 

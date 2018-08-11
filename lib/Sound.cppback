@@ -1,0 +1,28 @@
+#include "Sound.h"
+
+Tehsis::Sound::Sound() {
+  int flags = MIX_INIT_FLAC;
+  int initted = Mix_Init(flags);
+
+  if((initted&flags) != flags) {
+    throw Mix_GetError();
+  }
+
+  if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 1024)==-1) {
+    throw Mix_GetError();
+  }
+
+}
+
+Tehsis::Sound::~Sound() {
+  Mix_CloseAudio();
+  Mix_Quit();
+}
+
+void Tehsis::Sound::Play() {}
+
+void Tehsis::Sound::Stop() {}
+
+void Tehsis::Sound::Resume() {}
+
+void Tehsis::Sound::Pause() {}

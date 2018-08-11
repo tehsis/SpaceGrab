@@ -8,6 +8,7 @@ Drawer* SDrawer::d;
 Drawer::Drawer(std::string title, uint screen_width, uint screen_height, uint lwidth, uint lheight) {
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
+    TTF_Init();
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     camera = new Camera(0, 0, screen_width, screen_height); 
@@ -18,6 +19,7 @@ Drawer::Drawer(std::string title, uint screen_width, uint screen_height, uint lw
 Drawer::Drawer(std::string title, uint screen_width, uint screen_height) {
     SDL_Init(SDL_INIT_VIDEO);
     IMG_Init(IMG_INIT_PNG);
+    TTF_Init();
     window = SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, screen_width, screen_height, SDL_WINDOW_SHOWN);
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
     camera = new Camera(0, 0, screen_width, screen_height); 
@@ -45,13 +47,34 @@ Texture* Drawer::Image(std::string path) {
     return imgTexture;
 }
 
+Font* Drawer::LoadFont(std::string path) {
+  return TTF_OpenFont( path.c_str(), 28 );
+}
+
+Texture* Drawer::Text(std::string text, Color color, Font* font) {
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), color);
+
+    SDL_Texture* txtTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
+
+    SDL_FreeSurface(textSurface);
+
+    return txtTexture;
+}
+
 void Drawer::DrawImage(Texture* texture, const Rectangle* src, const Rectangle* dst) {
     DrawImage(texture, src, dst, 0, NULL);
 }
-
 void Drawer::DrawImage(Texture* texture, const Rectangle* src, const Rectangle* dst, const double angle, const Point *center) {
-    SDL_RenderCopyEx(renderer, texture, src, camera->GetRelativeRect(dst), angle, center, SDL_FLIP_NONE);
+    DrawImageAbsolute(texture, src, camera->GetRelativeRect(dst), angle, center);
+}
 
+void Drawer::DrawImageAbsolute(Texture* texture, const Rectangle* src, const Rectangle* dst) {
+    DrawImageAbsolute(texture, src, dst, 0, NULL);
+}
+
+void Drawer::DrawImageAbsolute(Texture* texture, const Rectangle* src, const Rectangle* dst, const double angle, const Point *center) {
+    cout <<< "what";
+    SDL_RenderCopyEx(renderer, texture, src, dst, angle, center, SDL_FLIP_NONE);
 }
 
 unsigned int Drawer::getCameraWidth() {

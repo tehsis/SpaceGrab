@@ -3,6 +3,7 @@
 #include "entities/Ship.h"
 #include "entities/Background.h"
 #include "entities/Asteroid.h"
+#include "entities/Velocity.h"
 
 #include <vector>
 using namespace std;
@@ -22,7 +23,7 @@ int main() {
     r.AddEntity(&b);
 
 
-      Ship s;
+    Ship s;
     r.AddEntity(&s);
 
     for (int i=0; i< SpaceGrab::ASTEROIDS_AMOUNT;i++) {

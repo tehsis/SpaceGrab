@@ -41,7 +41,6 @@ void Asteroid::onUpdate() {
   s->x = 120 * animationCount;
   s->y = 0;
   
-  std::cout << "Rendering asteroid (" << r->x << ", " << r->y << ")" << std::endl;
   drawer->DrawImage(t, s, r);
 }
 

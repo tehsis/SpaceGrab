@@ -56,7 +56,6 @@ void Runtime::loop() {
 
 void Runtime::onLoop() {
     std::for_each(entities.begin(), entities.end(), [&] (Tehsis::Entity* e) {
-      std::cout << "active: " << e->isActive() << std::endl;
       if (e->isActive()) {
         e->onUpdate();  
       }
